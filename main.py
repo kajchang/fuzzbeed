@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 import json
+import re
 
 base_url = 'https://www.buzzfeed.com/us/feedpage/feed/quizzes-can-we-guess?page={}&page_name=quizzes&'
 page = 1
@@ -28,6 +29,26 @@ while True:
 
     page += 1
 
+patterns = [
+    [r'Can We Guess ((?:[A-Z][a-z]+ )+)Based On ((?:[A-Z][a-z]+ ?)+)\?', True]
+]
 
-with open('titles.json', 'w') as titles_file:
-    json.dump(titles, titles_file, indent=4)
+for title in titles:
+    for pattern, flipped in patterns:
+        match = re.match(pattern, title)
+
+        if match:
+            source = match.group(1)
+            result = match.group(2)
+
+            if flipped:
+                source, result = result, source
+
+            print('''--------
+Title: {title}
+Source: {source}
+Result: {result}
+Pattern: {pattern}
+--------'''.format(**locals()))
+
+            continue
