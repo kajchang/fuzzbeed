@@ -1,0 +1,6 @@
+[
+    ["Can We Guess {0} Based On {1}\\?", true],
+    ["Pick {0} And We'll Guess {1}", false],
+    ["We Know {0} Based On {1}", true],
+    ["We Can Guess {0} Based On {1}", false]
+]
