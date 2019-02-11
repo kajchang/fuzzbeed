@@ -3,30 +3,37 @@ from bs4 import BeautifulSoup
 
 import json
 import re
+import os
 
-base_url = 'https://www.buzzfeed.com/us/feedpage/feed/quizzes-can-we-guess?page={}&page_name=quizzes&'
-page = 1
+if os.path.exists('titles.json'):
+    with open('titles.json') as titles_file:
+        titles = json.load(titles_file)
 
-titles = []
+else:
+    print('Scraping Buzzfeed Article Titles...')
+    base_url = 'https://www.buzzfeed.com/us/feedpage/feed/quizzes-can-we-guess?page={}&page_name=quizzes&'
+    page = 1
 
-while True:
-    resp = requests.get(base_url.format(page))
+    titles = []
 
-    if resp.status_code == 404:
-        break
+    while True:
+        resp = requests.get(base_url.format(page))
 
-    soup = BeautifulSoup(resp.text, 'html.parser')
+        if resp.status_code == 404:
+            break
 
-    for article in soup.find_all(attrs={'data-buzzblock': ['featured-card', 'story-card']}):
-        if 'featured-card' in article['class']:
-            title = article.find('h1').text
+        soup = BeautifulSoup(resp.text, 'html.parser')
 
-        else:
-            title = article.find('h2').text
+        for article in soup.find_all(attrs={'data-buzzblock': ['featured-card', 'story-card']}):
+            if 'featured-card' in article['class']:
+                title = article.find('h1').text
 
-        titles.append(title)
+            else:
+                title = article.find('h2').text
 
-    page += 1
+            titles.append(title)
+
+        page += 1
 
 word_regex = r'((?:[A-Z][a-z]+ ?)+)'
 
