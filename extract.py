@@ -35,10 +35,13 @@ else:
 
         page += 1
 
-word_regex = r'((?:[A-Z][a-z]+ ?)+)'
+word_regex = r"(.*)"
 
 patterns = [
-    [r'Can We Guess {word_regex} Based On {word_regex}\?', True]
+    [r'Can We Guess {word} Based On {word}\?', True],
+    [r"Pick {word} And We'll Guess {word}", False],
+    [r'We Know {word} Based On {word}', True],
+    [r'We Can Guess {word} Based On {word}', True]
 ]
 
 sources = []
@@ -46,7 +49,7 @@ results = []
 
 for title in titles:
     for pattern, flipped in patterns:
-        match = re.match(pattern.format(word_regex=word_regex), title)
+        match = re.match(pattern.format(word=word_regex), title)
 
         if match:
             source = match.group(1)
@@ -58,7 +61,7 @@ for title in titles:
             sources.append(source)
             results.append(result)
 
-            pattern = pattern.format(word_regex='_____').replace('\\', '')
+            pattern = pattern.format(word='_____').replace('\\', '')
 
             print('''--------
 Title: {title}
@@ -67,8 +70,7 @@ Result: {result}
 Pattern: {pattern}
 --------'''.format(**locals()))
 
-            continue
-
+            break
 
 with open('titles.json', 'w') as titles_file:
     json.dump(titles, titles_file, indent=4)
