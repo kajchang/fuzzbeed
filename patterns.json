@@ -2,5 +2,11 @@
     ["Can We Guess {0} Based On {1}\\?", true],
     ["Pick {0} And We'll Guess {1}", false],
     ["We Know {0} Based On {1}", true],
-    ["We Can Guess {0} Based On {1}", false]
+    ["We Can Guess {0} Based On {1}", false],
+    ["{0} And We'll Guess {1}", false],
+    ["Let's See If We Can Guess {0} Based On {1}", true],
+    ["I Bet We Can Correctly Guess {0} Based On {1}", true],
+    ["I Bet We Can Accurately Guess {0} Based On {1}", true],
+    ["Let's See If We Can Guess {0} Solely Based On {1}", true],
+    ["We Can Actually Guess {0} Based On {1}", true]
 ]
